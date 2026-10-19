@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
-import { goToCheckout, roundMoney } from '../helpers/shop';
+import { goToCheckout } from '../helpers/shop';
+import { roundMoney } from '../helpers/price';
 import { checkoutInfo, products } from '../test-data/users';
 import { checkoutFormCases } from '../test-data/checkoutCases';
 

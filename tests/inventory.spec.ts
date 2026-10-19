@@ -53,4 +53,42 @@ test.describe('Products', () => {
     await inventoryPage.backToProducts();
     await inventoryPage.expectOnProductsPage();
   });
+
+  test('P05 lowest priced item is the Onesie', { tag: '@regression' }, async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await expect(inventoryPage.items()).toHaveCount(6);
+
+    const names = await inventoryPage.getProductNames();
+    const prices = await inventoryPage.getProductPrices();
+
+    // find the position of the lowest price
+    let lowest = 0;
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] < prices[lowest]) {
+        lowest = i;
+      }
+    }
+
+    expect(names[lowest]).toBe(products.onesie);
+    expect(prices[lowest]).toBe(7.99);
+  });
+
+  test('P06 highest priced item is the Fleece Jacket', { tag: '@regression' }, async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    await expect(inventoryPage.items()).toHaveCount(6);
+
+    const names = await inventoryPage.getProductNames();
+    const prices = await inventoryPage.getProductPrices();
+
+    // find the position of the highest price
+    let highest = 0;
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] > prices[highest]) {
+        highest = i;
+      }
+    }
+
+    expect(names[highest]).toBe(products.fleeceJacket);
+    expect(prices[highest]).toBe(49.99);
+  });
 });

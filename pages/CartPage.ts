@@ -1,7 +1,11 @@
 import { Page, expect } from '@playwright/test';
 
 export class CartPage {
-  constructor(private page: Page) {}
+  page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+  }
 
   async expectOnCartPage() {
     await expect(this.page).toHaveURL(/cart\.html/);

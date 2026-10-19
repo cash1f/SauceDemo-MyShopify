@@ -1,7 +1,12 @@
 import { Page, expect } from '@playwright/test';
+import { parsePrice } from '../helpers/price';
 
 export class CheckoutPage {
-  constructor(private page: Page) {}
+  page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+  }
 
   async fillInfo(firstName: string, lastName: string, postcode: string) {
     await this.page.getByPlaceholder('First Name').fill(firstName);
@@ -29,24 +34,24 @@ export class CheckoutPage {
   // Reads "Item total: $29.99" and returns 29.99
   async getItemTotal() {
     const text = await this.page.getByTestId('subtotal-label').innerText();
-    return Number(text.replace('Item total: $', ''));
+    return parsePrice(text);
   }
 
   async getTax() {
     const text = await this.page.getByTestId('tax-label').innerText();
-    return Number(text.replace('Tax: $', ''));
+    return parsePrice(text);
   }
 
   async getTotal() {
     const text = await this.page.getByTestId('total-label').innerText();
-    return Number(text.replace('Total: $', ''));
+    return parsePrice(text);
   }
 
   async getItemPrices() {
     const texts = await this.page.getByTestId('inventory-item-price').allTextContents();
     const prices: number[] = [];
     for (const text of texts) {
-      prices.push(Number(text.replace('$', '')));
+      prices.push(parsePrice(text));
     }
     return prices;
   }

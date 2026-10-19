@@ -1,7 +1,12 @@
 import { Page, expect } from '@playwright/test';
+import { parsePrice } from '../helpers/price';
 
 export class InventoryPage {
-  constructor(private page: Page) {}
+  page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+  }
 
   async open() {
     await this.page.goto('/inventory.html');
@@ -35,7 +40,7 @@ export class InventoryPage {
     const texts = await this.page.getByTestId('inventory-item-price').allTextContents();
     const prices: number[] = [];
     for (const text of texts) {
-      prices.push(Number(text.replace('$', '')));
+      prices.push(parsePrice(text));
     }
     return prices;
   }
@@ -72,7 +77,7 @@ export class InventoryPage {
 
   async expectProductDetails(productName: string) {
     await expect(this.page).toHaveURL(/inventory-item\.html/);
-    await expect(this.page.getByText(productName, { exact: true })).toBeVisible();
+    await expect(this.page.getByRole('img', { name: productName })).toBeVisible();
   }
 
   async backToProducts() {
