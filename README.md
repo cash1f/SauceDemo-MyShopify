@@ -14,7 +14,7 @@ Built as a learning project, covering login, products, cart and checkout.
 
 ```
 pages/        page objects (Login, Inventory, Cart, Checkout)
-helpers/      shared steps (login, add products, go to checkout)
+helpers/      shared steps (login, add products, go to checkout) and price helpers
 test-data/    users, checkout details, product names, data-driven cases
 tests/        login, inventory, cart and checkout specs
 ```
