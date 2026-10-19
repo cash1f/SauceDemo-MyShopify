@@ -11,7 +11,13 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        // Stops Chrome's password popups (browser UI, not part of the page)
+        launchOptions: {
+          args: ['--disable-features=PasswordLeakDetection,PasswordManagerOnboarding'],
+        },
+      },
     },
   ],
 });
